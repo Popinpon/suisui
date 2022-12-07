@@ -1,6 +1,6 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
+import pandas as pd
 # use creds to create a client to interact with the Google Drive API
 scope =['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('spreadsheet-370905-a9b0e58a938d.json', scope)
@@ -11,5 +11,7 @@ client = gspread.authorize(creds)
 sheet = client.open("待ち時間").sheet1
 
 # Extract and print all of the values
-list_of_hashes = sheet.get_all_records()
-print(list_of_hashes)
+rows = sheet.get_all_records()
+
+df = pd.DataFrame.from_records(rows)
+print(df)
